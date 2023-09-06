@@ -1,9 +1,14 @@
+import styles from './ResultFolder.module.css'
 
-const ResultFolder=()=>{
 
+const ResultFolder=(props)=>{
+  const calculateTotalInterest = () => {
+    return props.output.reduce((total, yearData) => total + yearData.yearlyInterest, 0);
+  };
 
+  
     return(
-        <table className="result">
+        <table className={styles["result"]}>
         <thead>
           <tr>
             <th>Year</th>
@@ -14,13 +19,16 @@ const ResultFolder=()=>{
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>YEAR NUMBER</td>
-            <td>TOTAL SAVINGS END OF YEAR</td>
-            <td>INTEREST GAINED IN YEAR</td>
-            <td>TOTAL INTEREST GAINED</td>
-            <td>TOTAL INVESTED CAPITAL</td>
-          </tr>
+          {props.output.map((yearData)=> (
+          <tr key={Math.random()}>
+          <td>{yearData.year}</td>
+          <td>{yearData.savingsEndOfYear}</td>
+          <td>{yearData.yearlyInterest}</td>
+          <td>{calculateTotalInterest()}</td>
+          <td>{yearData.yearlyContribution}</td>
+        </tr>
+))}
+
         </tbody>
       </table>
 

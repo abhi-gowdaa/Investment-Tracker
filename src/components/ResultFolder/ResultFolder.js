@@ -1,10 +1,13 @@
 import styles from './ResultFolder.module.css'
 
-
+const formatter = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'USD',
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2,
+});
 const ResultFolder=(props)=>{
-  const calculateTotalInterest = () => {
-    return props.output.reduce((total, yearData) => total + yearData.yearlyInterest, 0);
-  };
+
 
   
     return(
@@ -19,15 +22,21 @@ const ResultFolder=(props)=>{
           </tr>
         </thead>
         <tbody>
-          {props.output.map((yearData)=> (
+          {props.data.map((yearData)=> (
           <tr key={Math.random()}>
           <td>{yearData.year}</td>
-          <td>{yearData.savingsEndOfYear}</td>
-          <td>{yearData.yearlyInterest}</td>
-          <td>{calculateTotalInterest()}</td>
-          <td>{yearData.yearlyContribution}</td>
+          <td>{formatter.format(yearData.savingsEndOfYear)}</td>
+          <td>{formatter.format(yearData.yearlyInterest)}</td>
+          <td>
+            {formatter.format(
+              yearData.savingsEndOfYear -
+              props.initialInvestment-
+              yearData.yearlyContribution*yearData.year)}
+              </td>
+          <td>{formatter.format(props.initialInvestment+
+          yearData.yearlyContribution*yearData.year)}</td>
         </tr>
-))}
+))} 
 
         </tbody>
       </table>
